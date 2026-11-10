@@ -208,6 +208,24 @@ lineupNameInput.addEventListener("keydown", function (event) {
     saveCurrentLineup();
   }
 });
+// ---------- Reset the board ----------
+const resetButton = document.getElementById("reset-board");
+
+resetButton.addEventListener("click", function () {
+  const ok = confirm("Reset the board? Names, numbers, positions and substitutes will be cleared. Saved lineups are not affected.");
+
+  if (!ok) {
+    return;
+  }
+
+  players = [];   // forget everyone first, so loadFormation has no old names to copy
+  bench = [];
+  loadFormation(formationSelect.value);
+
+  cancelSwap();   // clears any half-finished swap and redraws the bench
+  lineupNameInput.value = "";
+  showLineupMessage("", false);
+});
 
 // ---------- Start ----------
 drawLineups();

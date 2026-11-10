@@ -353,6 +353,10 @@ dialog select {
   background: #2e7d32;
 }
 
+.btn-danger {
+  background: #b3261e;
+  margin-top: 24px;
+}
 @media (max-width: 800px) {
   .layout {
     flex-direction: column;
