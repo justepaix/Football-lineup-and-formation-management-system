@@ -17,7 +17,9 @@
       <select id="formation-select"></select>
 
       <h2>Substitutes</h2>
-      <p>Bench goes here (later)</p>
+      <div id="bench-list"></div>
+      <p id="bench-hint" class="hint"></p>
+      <button id="add-sub" class="btn" type="button">+ Add substitute</button>
     </aside>
 
     <section class="pitch-area">
@@ -53,9 +55,10 @@
     </section>
 
   </main>
+  
   <dialog id="player-dialog">
     <form id="player-form">
-      <h2>Edit player</h2>
+      <h2 id="dialog-title">Edit player</h2>
 
       <label for="player-name">Name</label>
       <input type="text" id="player-name" maxlength="16" placeholder="Player name">

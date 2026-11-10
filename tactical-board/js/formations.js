@@ -1,10 +1,4 @@
-// Each formation is a list of 11 spots.
-// x and y are percentages of the pitch (0 to 100).
-// x: 0 = left edge, 100 = right edge
-// y: 0 = top (opponent goal), 100 = bottom (our goal)
-
 const FORMATIONS = {
-
   "4-3-3": {
     label: "4-3-3 Attacking",
     spots: [
@@ -88,7 +82,6 @@ const FORMATIONS = {
 
 };
 
-// The positions a coach can choose from (ordered roughly back to front)
 const POSITIONS = [
   "GK",
   "CB", "LB", "LWB", "RB", "RWB",
