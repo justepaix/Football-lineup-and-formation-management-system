@@ -103,11 +103,21 @@ body {
   font-size: 13px;
   font-weight: bold;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
 }
 
 .token.gk {
   background: #f2a900;
   color: #222;
+}
+
+.token.dragging {
+  cursor: grabbing;
+  z-index: 10;
+  transform: translate(-50%, -50%) scale(1.15);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6);
 }
 
 @media (max-width: 800px) {

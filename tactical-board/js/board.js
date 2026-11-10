@@ -9,7 +9,38 @@ function fillFormationSelect() {
     formationSelect.appendChild(option);
   }
 }
+function makeDraggable(token) {
 
+  token.addEventListener("pointerdown", function (event) {
+    token.setPointerCapture(event.pointerId);
+    token.classList.add("dragging");
+  });
+
+  token.addEventListener("pointermove", function (event) {
+    if (!token.hasPointerCapture(event.pointerId)) {
+      return;
+    }
+    const box = tokensLayer.getBoundingClientRect();
+
+    let x = ((event.clientX - box.left) / box.width) * 100;
+    let y = ((event.clientY - box.top) / box.height) * 100;
+
+    x = Math.min(Math.max(x, 3), 97);
+    y = Math.min(Math.max(y, 3), 97);
+
+    token.style.left = x + "%";
+    token.style.top = y + "%";
+  });
+
+  token.addEventListener("pointerup", function (event) {
+    token.releasePointerCapture(event.pointerId);
+    token.classList.remove("dragging");
+  });
+
+  token.addEventListener("pointercancel", function () {
+    token.classList.remove("dragging");
+  });
+}
 
 function renderFormation(key) {
   tokensLayer.innerHTML = "";  
@@ -26,6 +57,7 @@ function renderFormation(key) {
     token.style.left = spot.x + "%";
     token.style.top = spot.y + "%";
     token.dataset.index = index;
+    makeDraggable(token);
     tokensLayer.appendChild(token);
   });
 }
