@@ -53,6 +53,27 @@
     </section>
 
   </main>
+  <dialog id="player-dialog">
+    <form id="player-form">
+      <h2>Edit player</h2>
+
+      <label for="player-name">Name</label>
+      <input type="text" id="player-name" maxlength="16" placeholder="Player name">
+
+      <label for="player-number">Jersey number (1-99)</label>
+      <input type="number" id="player-number" min="1" max="99">
+
+      <label for="player-pos">Position</label>
+      <select id="player-pos"></select>
+
+      <p id="player-error" class="error"></p>
+
+      <div class="dialog-buttons">
+        <button type="button" id="player-cancel">Cancel</button>
+        <button type="submit">Save</button>
+      </div>
+    </form>
+  </dialog>
 <script src="js/formations.js"></script>
 <script src="js/board.js"></script>
 </body>
