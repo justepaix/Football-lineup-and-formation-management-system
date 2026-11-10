@@ -30,7 +30,7 @@ An interactive 2D pitch board where coaches can pick a formation, drag player to
 
 ## How to run
 
-1. Download or clone this repository
+1. Clone this repository
 2. Open `index.html` in any modern browser
 
 No installation or server needed.
@@ -49,8 +49,7 @@ No installation or server needed.
 ```
 tactical-board/
 ├── index.html
-├── css/
-│   └── style.css      (layout, pitch, tokens, dialog, bench, saved list)
+├── style.css      (layout, pitch, tokens, dialog, bench, saved list)
 ├── js/
 │   ├── formations.js  (formation data and position list)
 │   ├── storage.js     (reads and writes localStorage)
@@ -61,7 +60,7 @@ tactical-board/
 
 ## How it works
 
-- **State and drawing are separate.** The app keeps two arrays, `players` (the 11 on the pitch) and `bench`. Functions like `drawTokens()` and `drawBench()` paint them on screen whenever the data changes.
+- The app keeps two arrays, `players` (the 11 on the pitch) and `bench`. Functions like `drawTokens()` and `drawBench()` paint them on screen whenever the data changes.
 - **Formations are data.** Each formation is a list of 11 spots with a position label and x/y percentages, so adding a formation only means adding data.
 - **Percent coordinates.** Tokens are placed with percentages, so the board scales to any screen size.
 - **Pointer events** handle dragging, so the same code works with a mouse and a finger.
@@ -76,5 +75,4 @@ tactical-board/
 
 - Export and import lineups as a file
 - Team color picker
-- Print view
 - Auto-save of the live board
