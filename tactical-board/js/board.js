@@ -15,15 +15,13 @@ const posSelect = document.getElementById("player-pos");
 const errorText = document.getElementById("player-error");
 const cancelButton = document.getElementById("player-cancel");
 
-// ---------- State ----------
-let players = [];       // the 11 on the pitch
-let bench = [];         // the substitutes
-let editing = null;     // what the dialog is working on: { list: "pitch" or "bench", index: number or null }
-let swapIndex = null;   // which sub is waiting to be swapped (null = no swap in progress)
+let players = [];       
+let bench = [];         
+let editing = null;     
+let swapIndex = null;   
 
 const MAX_SUBS = 9;
 
-// ---------- Fill the dropdowns ----------
 function fillFormationSelect() {
   for (const key in FORMATIONS) {
     const option = document.createElement("option");
@@ -42,7 +40,6 @@ function fillPositionSelect() {
   });
 }
 
-// ---------- Put a formation into the state ----------
 function loadFormation(key) {
   players = FORMATIONS[key].spots.map(function (spot, i) {
     const old = players[i];
@@ -57,7 +54,6 @@ function loadFormation(key) {
   drawTokens();
 }
 
-// ---------- Draw the pitch ----------
 function drawTokens() {
   tokensLayer.innerHTML = "";
 
@@ -84,7 +80,6 @@ function drawTokens() {
   });
 }
 
-// ---------- Draw the bench ----------
 function makeButton(symbol, title, onClick) {
   const button = document.createElement("button");
   button.type = "button";
@@ -132,19 +127,18 @@ function drawBench() {
   addSubButton.disabled = bench.length >= MAX_SUBS;
 }
 
-// ---------- Bench actions ----------
 function removeSub(index) {
   const name = bench[index].name || "this player";
   if (!confirm("Remove " + name + " from the bench?")) {
     return;
   }
   bench.splice(index, 1);
-  cancelSwap();   // positions in the list just shifted, so drop any pending swap
+  cancelSwap();   
 }
 
 function startSwap(index) {
   if (swapIndex === index) {
-    cancelSwap();          // pressing the same button again cancels
+    cancelSwap();          
     return;
   }
   swapIndex = index;
@@ -172,14 +166,11 @@ function swapWithBench(pitchIndex) {
   const starter = players[pitchIndex];
   const sub = bench[swapIndex];
 
-  // remember who is leaving the pitch
   const outgoing = { name: starter.name, number: starter.number, pos: starter.pos };
 
-  // the sub takes the starter's slot (the slot keeps its position and place)
   starter.name = sub.name;
   starter.number = sub.number;
 
-  // the starter takes the sub's place on the bench
   bench[swapIndex] = outgoing;
 
   swapIndex = null;
@@ -187,7 +178,6 @@ function swapWithBench(pitchIndex) {
   drawTokens();
 }
 
-// ---------- Dragging + clicking ----------
 function makeInteractive(token, index) {
   let startX = 0;
   let startY = 0;
@@ -232,7 +222,6 @@ function makeInteractive(token, index) {
     token.classList.remove("dragging");
 
     if (!moved) {
-      // a click: either finish a swap, or open the editor
       if (swapIndex !== null) {
         swapWithBench(index);
       } else {
@@ -246,7 +235,6 @@ function makeInteractive(token, index) {
   });
 }
 
-// ---------- The dialog (used for pitch players AND subs) ----------
 function openDialog(list, index) {
   editing = { list: list, index: index };
 
@@ -256,7 +244,7 @@ function openDialog(list, index) {
     person = players[index];
     dialogTitle.textContent = "Edit player";
   } else if (index === null) {
-    person = { name: "", number: "", pos: "CM" };    // a brand new sub
+    person = { name: "", number: "", pos: "CM" };    
     dialogTitle.textContent = "Add substitute";
   } else {
     person = bench[index];
@@ -271,7 +259,6 @@ function openDialog(list, index) {
   dialog.showModal();
 }
 
-// is this jersey number already used by someone else (pitch or bench)?
 function isNumberTaken(number) {
   const onPitch = players.some(function (p, i) {
     const isMe = editing.list === "pitch" && editing.index === i;
@@ -301,7 +288,7 @@ playerForm.addEventListener("submit", function (event) {
     const n = Number(number);
 
     if (!Number.isInteger(n) || n < 1 || n > 99) {
-      errorText.textContent = "Number must be a whole number from 1 to 99.";
+      errorText.textContent = "Number must be from 1 to 99.";
       return;
     }
 
@@ -341,7 +328,6 @@ formationSelect.addEventListener("change", function () {
   loadFormation(formationSelect.value);
 });
 
-// ---------- Start the app ----------
 fillFormationSelect();
 fillPositionSelect();
 loadFormation(formationSelect.value);

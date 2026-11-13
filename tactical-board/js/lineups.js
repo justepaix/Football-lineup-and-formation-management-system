@@ -1,16 +1,13 @@
-// ---------- Elements ----------
 const lineupNameInput = document.getElementById("lineup-name");
 const saveLineupButton = document.getElementById("save-lineup");
 const lineupMessage = document.getElementById("lineup-message");
 const lineupList = document.getElementById("lineup-list");
 
-// ---------- Small helpers ----------
 function showLineupMessage(text, isError) {
   lineupMessage.textContent = text;
   lineupMessage.classList.toggle("error", isError === true);
 }
 
-// find a lineup by name (ignoring upper/lower case); skip the one with ignoreId
 function findByName(lineups, name, ignoreId) {
   const wanted = name.toLowerCase();
 
@@ -28,7 +25,6 @@ function formatDate(timestamp) {
   });
 }
 
-// ---------- Draw the saved list ----------
 function drawLineups() {
   const lineups = readLineups();
   lineupList.innerHTML = "";
@@ -73,7 +69,6 @@ function drawLineups() {
   });
 }
 
-// ---------- Save ----------
 function saveCurrentLineup() {
   const name = lineupNameInput.value.trim();
 
@@ -102,9 +97,9 @@ function saveCurrentLineup() {
   };
 
   if (existing) {
-    lineups[lineups.indexOf(existing)] = entry;   // replace in the same spot
+    lineups[lineups.indexOf(existing)] = entry;   
   } else {
-    lineups.unshift(entry);                       // new ones go to the top
+    lineups.unshift(entry);                       
   }
 
   if (writeLineups(lineups)) {
@@ -115,7 +110,6 @@ function saveCurrentLineup() {
   }
 }
 
-// ---------- Load ----------
 function loadLineup(id) {
   const lineup = readLineups().find(function (l) {
     return l.id === id;
@@ -130,18 +124,17 @@ function loadLineup(id) {
     return;
   }
 
-  formationSelect.value = lineup.formation;   // make the dropdown match
-  players = lineup.players;                   // swap in the saved data...
+  formationSelect.value = lineup.formation;   
+  players = lineup.players;                   
   bench = lineup.bench;
   lineupNameInput.value = lineup.name;
 
-  cancelSwap();      // drop any half-finished swap (this also redraws the bench)
-  drawTokens();      // ...and redraw the pitch from it
+  cancelSwap();      
+  drawTokens();      
 
   showLineupMessage('Loaded "' + lineup.name + '".', false);
 }
 
-// ---------- Rename ----------
 function renameLineup(id) {
   const lineups = readLineups();
   const lineup = lineups.find(function (l) {
@@ -155,7 +148,7 @@ function renameLineup(id) {
   const answer = prompt("New name for this lineup:", lineup.name);
 
   if (answer === null) {
-    return;   // the coach pressed Cancel
+    return;   
   }
 
   const newName = answer.trim();
@@ -176,7 +169,6 @@ function renameLineup(id) {
   showLineupMessage("Renamed.", false);
 }
 
-// ---------- Delete ----------
 function deleteLineup(id) {
   const lineups = readLineups();
   const lineup = lineups.find(function (l) {
@@ -200,7 +192,6 @@ function deleteLineup(id) {
   showLineupMessage("Deleted.", false);
 }
 
-// ---------- Wire up the controls ----------
 saveLineupButton.addEventListener("click", saveCurrentLineup);
 
 lineupNameInput.addEventListener("keydown", function (event) {
@@ -208,7 +199,7 @@ lineupNameInput.addEventListener("keydown", function (event) {
     saveCurrentLineup();
   }
 });
-// ---------- Reset the board ----------
+
 const resetButton = document.getElementById("reset-board");
 
 resetButton.addEventListener("click", function () {
@@ -218,14 +209,13 @@ resetButton.addEventListener("click", function () {
     return;
   }
 
-  players = [];   // forget everyone first, so loadFormation has no old names to copy
+  players = [];   
   bench = [];
   loadFormation(formationSelect.value);
 
-  cancelSwap();   // clears any half-finished swap and redraws the bench
+  cancelSwap();   
   lineupNameInput.value = "";
   showLineupMessage("", false);
 });
 
-// ---------- Start ----------
 drawLineups();
